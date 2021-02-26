@@ -104,9 +104,17 @@ colorClasses.forEach(key => {
     })
 })
 
-fs.writeFile(`./out/colorsheet-${data.info.theme}.svg`, root.write(), () => console.log('SVG Generated'));
-sharp(`./out/colorsheet-${data.info.theme}.svg`)
-    .png()
-    .toFile(`./out/colorsheet-${data.info.theme}.png`)
-    .then(info => console.log('PNG Generated'))
-    .catch(err => console.log(`Error Generating PNG: ${err}`));
+try {
+    fs.mkdirSync('./out');
+}
+catch (err) { }
+
+fs.writeFile(`./out/colorsheet-${data.info.theme}.svg`, root.write(), () => {
+    console.log('SVG Generated')
+    sharp(`./out/colorsheet-${data.info.theme}.svg`)
+        .png()
+        .toFile(`./out/colorsheet-${data.info.theme}.png`)
+        .then(info => console.log('PNG Generated'))
+        .catch(err => console.log(`Error Generating PNG: ${err}`));
+}
+);
